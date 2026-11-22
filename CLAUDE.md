@@ -1,9 +1,10 @@
 # me
 
 The source of https://me.yamat47.me/, my portfolio site: who I am, the projects I build outside my job, my talks,
-everything I have written, and my career, in English and in Japanese.
+everything I have written, and my career, in English and in Japanese. It is a static site built with Astro from
+the components of my design system, pylon.
 
-Nothing is built yet. This file records what is decided, so that the first pull requests start from it.
+The site is built and not published yet: "Deploying" below says what is still to come.
 
 ## What is decided
 
@@ -31,23 +32,79 @@ Nothing is built yet. This file records what is decided, so that the first pull 
   published here; the team sizes the profile README gives are
 - **The address is `me.yamat47.me`,** a CNAME to GitHub Pages like the blog's. The apex `yamat47.me` is not used
 
-## Planned, and settled when it is built
+## Layout
 
-- The toolchain is meant to be the blog's: Astro, pnpm, Docker with `make` as the entry point, checks in CI, and a
-  deploy to GitHub Pages on every push to `main`
-- How the site is rebuilt when the blog publishes a post, so that the writing list follows it
-- The pictures the look asks for: my photo, a screenshot of each project, the first slide of the newest talk, and
-  the photographs of the about page
+| Path | Contents |
+|---|---|
+| `src/content/` | What the pages say, in both languages: the site's own words (`text.ts`), and the projects, talks, career, about page and the articles published outside the blog, each a list kept by hand |
+| `src/views/` | The pages, put together from pylon's components: one file a page, and `Frame.tsx` for the profile column and the footer every page has |
+| `src/pages/` | The routes: `[...path].astro` builds every page in both languages, `404.astro` the page for an address that leads nowhere |
+| `src/layouts/Base.astro` | The document around a page: its title, its description, and the links to the same page in each language |
+| `src/routes.ts`, `src/site.ts` | The pages' names and paths, and the site's address and what it reads from the blog |
+| `src/lib/blog-posts.ts`, `src/blog.ts` | Reading the blog's feed for the writing list, and keeping what it read |
+| `data/blog-posts.json` | The blog's posts as the last build that reached the feed saw them. Written by the build, committed |
+| `public/images/` | The pictures: a screenshot of each project, and the first slide of the newest talk |
+| `docker/` | Development image and compose |
+| `Makefile` | Entry point for development commands |
 
-## Rules that will be easy to break
+## Always run commands through make
 
+Node and pnpm are not installed on the host. The toolchain exists only inside the Docker container, and the `Makefile`
+invokes it with `docker compose -f docker/compose.yaml run`.
+**Do not run `pnpm` `npm` `npx` `node` `tsc` `biome` `astro` directly on the host** (`permissions.deny` in `.claude/settings.json` rejects them).
+
+| Goal | Command |
+|---|---|
+| Typecheck, lint, test and build in one go | `make check` (CI runs the same, plus zizmor on the workflows) |
+| Type check / lint / auto-fix / test | `make typecheck` / `make lint` / `make fix` / `make test` |
+| Build the site | `make build` (`dist/`) |
+| Dev server | `make up` (http://localhost:4331) / `make logs` / `make down` |
+| The built site | `make preview` (http://localhost:4332) / `make down` |
+| Add or update dependencies | `make pnpm ARGS="add -D <pkg>"` (the lockfile is also updated on the host) |
+| First run, or after changing the Dockerfile | `make setup` |
+
+## Rules that are easy to break
+
+- **No stylesheet, no `style`, no class name.** The look is pylon's (`@yamat47/pylon`), and its stylesheet is the
+  only one the site loads (`src/layouts/Base.astro`). A page that would need a class is missing a component, which
+  is added in pylon, released, and raised here. Nothing uses a `client:` directive: the components are rendered
+  when the site is built, and no page ships React
+- **Every text exists in both languages.** A page is the same view in English and in Japanese, so a text added in
+  one language is added in the other, in the same file, and a page is looked at in both. A title stays in the
+  language its author wrote it in, and the page is told so (`lang` on the item)
+- **A link inside the site ends with a slash and comes from `pathOf`** (`src/routes.ts`). The pages are served as
+  directories (`/about/`), and a link without the slash would go through a redirect
+- **A talk is dated by the day of its event.** Speaker Deck shows the day the slides were uploaded, which is often
+  later: take the date from the event's page (`src/content/talks.ts`)
+- **What is fetched at build time is cached in the repository and fails soft.** The blog's feed is the one such
+  thing: a build still succeeds, with the posts in `data/blog-posts.json`, when the feed cannot be read. The feed
+  carries only the blog's newest posts, so a post it no longer carries stays in the file. When a build changes the
+  file, commit it; CI does not fail on the difference, because a new post on the blog must not break this
+  repository's checks
+- **Text from another site is never written as HTML.** A title from the feed reaches a page as text, through a
+  component
+- **A picture is a file under `public/images/`, in the shape pylon gives it:** 16:10 for a project's screenshot
+  (taken at 1280x800), 16:9 for a talk's first slide. Every picture has an `alt` in both languages
 - **Keep dependencies few.** Everything added here is upkeep. Prefer a small module written in this repository to a
   third-party integration
-- **What is fetched at build time is cached in the repository and fails soft.** The blog's feed is the first such
-  thing: a build must still succeed, with the list it last saw, when the feed cannot be read. The feed carries
-  only the blog's newest posts, so a post it no longer carries stays in the cached list
-- **Text from another site is never written as HTML.** A title from a feed or from another site reaches a page as
-  text, through a component
+- TypeScript stays on 6 while `@astrojs/check` does not accept 7 (`.github/dependabot.yml` says when to lift that)
+- Tests run on Node's own test runner (`node --test`, files named `*.test.ts` beside what they test), so a module a
+  test loads imports its neighbours with the `.ts` extension. The pages themselves have no tests: they are verified
+  by `make check` and a look at the page in both languages and both themes (`make up`)
+
+## Not there yet
+
+- My photo in the profile column, and the photographs of the about page. Their places are marked `TODO` in
+  `src/views/Frame.tsx` and `src/views/AboutPage.tsx`
+- The day one talk was given (`TODO` in `src/content/talks.ts`)
+- A card for shared links, and a sitemap
+
+## Deploying
+
+`.github/workflows/deploy.yml` builds the site and publishes it to GitHub Pages. For now it runs by hand only: the
+Pages site and its domain are declared in yamat47/infra-github and the DNS record in yamat47/infra-yamat47, and
+neither exists yet. Once they do, a push to `main` publishes, and so does a daily schedule, which is how a new
+post on the blog reaches the writing list.
 
 ## Where the conventions live
 

@@ -3,10 +3,25 @@
 The source of [me.yamat47.me](https://me.yamat47.me/), my portfolio site: who I am, the projects I build outside my
 job, my talks, everything I have written, and my career, in English and in Japanese.
 
-Nothing is built yet. What is decided so far is in [CLAUDE.md](CLAUDE.md).
+It is a static site built with [Astro](https://astro.build/). It shares its design system with
+[blog.yamat47.me](https://blog.yamat47.me/): every page is put together from the components of
+[pylon](https://github.com/yamat47/pylon), and the site has no stylesheet of its own.
 
-The site will share its design system with [blog.yamat47.me](https://blog.yamat47.me/): the components of
-[pylon](https://github.com/yamat47/pylon).
+## Development
+
+Node and pnpm are not needed on the host: the toolchain runs in a Docker container, and `make` is the entry point.
+
+```sh
+make setup    # first time: build the image and install dependencies
+make up       # dev server at http://localhost:4331
+make check    # typecheck, lint, test and build, as CI does
+make preview  # the built site at http://localhost:4332
+make help     # every target
+```
+
+English is at `/` and Japanese at `/ja/`. What the pages say is in `src/content/`, in both languages; the blog's
+posts in the writing list are read from the blog's feed when the site is built, and kept in
+`data/blog-posts.json`. The layout of the repository and its rules are in [CLAUDE.md](CLAUDE.md).
 
 ## Skills
 

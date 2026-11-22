@@ -1,0 +1,14 @@
+---
+import { TEXT } from "../content/text";
+import Base from "../layouts/Base.astro";
+import { NotFoundPage } from "../views/NotFoundPage";
+
+// GitHub Pages serves this one page for every address that leads nowhere, in either language,
+// so it is in the site's default language.
+const lang = "en";
+const { notFound } = TEXT[lang];
+---
+
+<Base lang={lang} title={notFound.title} description={notFound.text}>
+  <NotFoundPage lang={lang} />
+</Base>
