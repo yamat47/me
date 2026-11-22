@@ -1,0 +1,37 @@
+{
+  "name": "me",
+  "private": true,
+  "description": "Source of me.yamat47.me, my portfolio: projects, talks, writing and career",
+  "homepage": "https://me.yamat47.me/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yamat47/me.git"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host",
+    "build": "astro build",
+    "preview": "astro preview --host",
+    "typecheck": "astro check",
+    "lint": "biome check --error-on-warnings .",
+    "lint:fix": "biome check --write .",
+    "test": "node --test \"src/**/*.test.ts\"",
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.9",
+    "@yamat47/pylon": "^0.4.0",
+    "astro": "^7.4.11",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@biomejs/biome": "^2.6.8",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "~6.0.3"
+  },
+  "packageManager": "pnpm@11.8.0"
+}

@@ -1,0 +1,13 @@
+{
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": {
+    // TypeScript 6 loads no @types package unless it is named here. The feed's cache and the
+    // tests use Node's own modules (node:fs, node:test).
+    "types": ["node"],
+    // The design system's components are React, and the pages in src/views/ put them together.
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
+}
