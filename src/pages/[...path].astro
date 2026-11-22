@@ -1,0 +1,38 @@
+---
+import type { Language } from "@yamat47/pylon";
+import { blogPosts } from "../blog";
+import { TEXT } from "../content/text";
+import { articlesIn } from "../content/writing";
+import Base from "../layouts/Base.astro";
+import { LANGUAGES, PAGES, type PageName, pathOf } from "../routes";
+import { View } from "../views/View";
+
+// Every page in every language: `/`, `/about/`, `/ja/`, `/ja/about/`, and so on. The parameter is
+// the path without its slashes, and the top page of English has none.
+export function getStaticPaths() {
+  return LANGUAGES.flatMap((lang) =>
+    PAGES.map((page) => ({
+      params: { path: pathOf(lang, page).replace(/^\/|\/$/g, "") || undefined },
+      props: { lang, page },
+    })),
+  );
+}
+
+interface Props {
+  lang: Language;
+  page: PageName;
+}
+
+const { lang, page } = Astro.props;
+const text = TEXT[lang];
+const articles = articlesIn(lang, await blogPosts());
+---
+
+<Base
+  lang={lang}
+  page={page}
+  title={page === "top" ? undefined : text.titles[page]}
+  description={page === "top" ? text.top.introduction : text.descriptions[page]}
+>
+  <View lang={lang} page={page} articles={articles} />
+</Base>

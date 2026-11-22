@@ -1,0 +1,57 @@
+---
+import "@yamat47/pylon/styles.css";
+import type { Language } from "@yamat47/pylon";
+import { TEXT } from "../content/text";
+import { LANGUAGES, type PageName, pathOf } from "../routes";
+
+interface Props {
+  lang: Language;
+  /** The page, one of the site's. Left out on the page for an address that leads nowhere. */
+  page?: PageName | undefined;
+  /** The page's own title; omitted on the top page, which is titled by the name alone. */
+  title?: string | undefined;
+  /** What a search result or a shared link says under the title. */
+  description: string;
+}
+
+const { lang, page, title, description } = Astro.props;
+const { name } = TEXT[lang];
+const fullTitle = title ? `${title} - ${name}` : name;
+const address = (language: Language, of: PageName) => new URL(pathOf(language, of), Astro.site);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {
+      // The page's own address, and the same page in each language, so that a search engine
+      // shows a reader the one in theirs. English is the one for every other language.
+      page && (
+        <>
+          <link rel="canonical" href={address(lang, page)} />
+          {LANGUAGES.map((language) => (
+            <link rel="alternate" hreflang={language} href={address(language, page)} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={address("en", page)} />
+          <meta property="og:url" content={address(lang, page)} />
+        </>
+      )
+    }
+    {
+      // What a link to the page shows where it is shared: Open Graph, which X reads too. The
+      // title goes without the name, which has a property of its own.
+    }
+    <meta property="og:site_name" content={name} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title || name} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
