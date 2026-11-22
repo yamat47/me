@@ -49,6 +49,16 @@ Nothing is built yet. This file records what is decided, so that the first pull 
 - **Text from another site is never written as HTML.** A title from a feed or from another site reaches a page as
   text, through a component
 
+## Where the conventions live
+
+- Follow the `writing-conventions` skill for comments, commits, and pull requests, the `typescript-idioms` skill for
+  TypeScript, and the `react-patterns` skill for React
+- Open pull requests with the `create-pr` skill
+- Check Dependabot pull requests with the `review-dependency-bump` skill, and skill update pull requests with the
+  `review-skill-update` skill
+- The skills in `.claude/skills/` are installed from yamat47/github-toolkit. Do not edit them here. Rules specific to
+  this repository live in this file; when they conflict with a skill, this file wins
+
 ## Language
 
 Everything written around the site is in English: documents, comments, commit messages, pull requests. The site's
