@@ -27,6 +27,8 @@ const address = (language: Language, of: PageName) => new URL(pathOf(language, o
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     {
       // The page's own address, and the same page in each language, so that a search engine
       // shows a reader the one in theirs. English is the one for every other language.
