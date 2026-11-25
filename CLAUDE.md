@@ -86,7 +86,8 @@ invokes it with `docker compose -f docker/compose.yaml run`.
   component
 - **A picture is a file under `public/images/`, in the shape pylon gives it:** 16:10 for a project's screenshot
   (taken at 1280x800), 16:9 for a talk's first slide, square for my photo in the profile column. Every picture has
-  an `alt` in both languages
+  an `alt` in both languages, except one whose text beside it says the same, which has an empty `alt` (my photo,
+  next to my name)
 - **Keep dependencies few.** Everything added here is upkeep. Prefer a small module written in this repository to a
   third-party integration
 - TypeScript stays on 6 while `@astrojs/check` does not accept 7 (`.github/dependabot.yml` says when to lift that)

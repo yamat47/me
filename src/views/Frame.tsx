@@ -62,7 +62,9 @@ export function Frame({ lang, page, children }: FrameProps) {
           name={text.name}
           href={top}
           description={text.description}
-          photo={{ src: "/images/me.jpg", alt: text.photo }}
+          // The name sits right beside the photo, so the photo says nothing more and a screen
+          // reader skips it.
+          photo={{ src: "/images/me.jpg", alt: "" }}
           heading={page === "top"}
           pages={pages}
           links={ACCOUNTS}

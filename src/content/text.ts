@@ -10,8 +10,6 @@ type SiteText = {
   readonly name: string;
   // One line under the name: what the person does.
   readonly description: string;
-  // What the photo in the profile column shows, for a reader who cannot see it.
-  readonly photo: string;
   readonly titles: Readonly<Record<ListedPage, string>>;
   // What a search result says under a page's title.
   readonly descriptions: Readonly<Record<ListedPage, string>>;
@@ -41,7 +39,6 @@ export const TEXT: Localized<SiteText> = {
   en: {
     name: "Takuya Yamaguchi",
     description: "Executive Officer and Head of Product Development at ONE CAREER Inc.",
-    photo: "Takuya Yamaguchi standing on an American football field",
     titles: {
       about: "About",
       projects: "Projects",
@@ -80,7 +77,6 @@ export const TEXT: Localized<SiteText> = {
   ja: {
     name: "山口 拓弥",
     description: "株式会社ワンキャリア 執行役員 / プロダクト開発部 部長",
-    photo: "アメリカンフットボールのフィールドに立つ山口 拓弥",
     titles: {
       about: "自己紹介",
       projects: "プロジェクト",
