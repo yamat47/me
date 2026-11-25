@@ -43,7 +43,8 @@ The site is built and not published yet: "Deploying" below says what is still to
 | `src/routes.ts`, `src/site.ts` | The pages' names and paths, and the site's address and what it reads from the blog |
 | `src/lib/blog-posts.ts`, `src/blog.ts` | Reading the blog's feed for the writing list, and keeping what it read |
 | `data/blog-posts.json` | The blog's posts as the last build that reached the feed saw them. Written by the build, committed |
-| `public/images/` | The pictures: a screenshot of each project, and the first slide of the newest talk |
+| `public/images/` | The pictures: my photo in the profile column, a screenshot of each project, and the first slide of the newest talk |
+| `public/favicon.ico`, `public/apple-touch-icon.png` | The site's icon: my face cropped from the photo in the profile column |
 | `docker/` | Development image and compose |
 | `Makefile` | Entry point for development commands |
 
@@ -84,7 +85,8 @@ invokes it with `docker compose -f docker/compose.yaml run`.
 - **Text from another site is never written as HTML.** A title from the feed reaches a page as text, through a
   component
 - **A picture is a file under `public/images/`, in the shape pylon gives it:** 16:10 for a project's screenshot
-  (taken at 1280x800), 16:9 for a talk's first slide. Every picture has an `alt` in both languages
+  (taken at 1280x800), 16:9 for a talk's first slide, square for my photo in the profile column. Every picture has
+  an `alt` in both languages
 - **Keep dependencies few.** Everything added here is upkeep. Prefer a small module written in this repository to a
   third-party integration
 - TypeScript stays on 6 while `@astrojs/check` does not accept 7 (`.github/dependabot.yml` says when to lift that)
@@ -94,8 +96,7 @@ invokes it with `docker compose -f docker/compose.yaml run`.
 
 ## Not there yet
 
-- My photo in the profile column, and the photographs of the about page. Their places are marked `TODO` in
-  `src/views/Frame.tsx` and `src/views/AboutPage.tsx`
+- The photographs of the about page. Their place is marked `TODO` in `src/views/AboutPage.tsx`
 - The day one talk was given (`TODO` in `src/content/talks.ts`)
 - A card for shared links, and a sitemap
 

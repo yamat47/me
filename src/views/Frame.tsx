@@ -62,7 +62,7 @@ export function Frame({ lang, page, children }: FrameProps) {
           name={text.name}
           href={top}
           description={text.description}
-          // TODO: `photo`, a square photo of me. Until there is one its place is tinted.
+          photo={{ src: "/images/me.jpg", alt: text.photo }}
           heading={page === "top"}
           pages={pages}
           links={ACCOUNTS}
