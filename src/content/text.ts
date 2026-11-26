@@ -1,7 +1,7 @@
 // The site's own words in each language: who the person is, what the pages are called, and the
 // short labels around the lists. What the lists hold is in the files beside this one.
 import type { Language, LinkItem } from "@yamat47/pylon";
-import type { ListedPage } from "../routes.ts";
+import type { TitledPage } from "../routes.ts";
 
 export type Localized<T> = Readonly<Record<Language, T>>;
 
@@ -10,9 +10,9 @@ type SiteText = {
   readonly name: string;
   // One line under the name: what the person does.
   readonly description: string;
-  readonly titles: Readonly<Record<ListedPage, string>>;
+  readonly titles: Readonly<Record<TitledPage, string>>;
   // What a search result says under a page's title.
-  readonly descriptions: Readonly<Record<ListedPage, string>>;
+  readonly descriptions: Readonly<Record<TitledPage, string>>;
   // The name of this language, as the link from the other language's page says it.
   readonly languageName: string;
   readonly footer: {
@@ -45,6 +45,7 @@ export const TEXT: Localized<SiteText> = {
       talks: "Talks",
       writing: "Writing",
       career: "Career",
+      privacy: "Privacy Policy",
     },
     descriptions: {
       about: "Who I am: my work, open source, American football and games.",
@@ -52,6 +53,7 @@ export const TEXT: Localized<SiteText> = {
       talks: "Talks I have given at conferences and meetups, with their slides.",
       writing: "Everything I have written, on my blog and elsewhere.",
       career: "Where I have worked, and the roles I held there.",
+      privacy: "How this site measures its visits.",
     },
     languageName: "English",
     footer: { site: "Site", links: "Links", language: "Language", blog: "Blog" },
@@ -83,6 +85,7 @@ export const TEXT: Localized<SiteText> = {
       talks: "登壇",
       writing: "執筆",
       career: "経歴",
+      privacy: "プライバシーポリシー",
     },
     descriptions: {
       about: "仕事、オープンソース、アメリカンフットボール、ゲームについての自己紹介。",
@@ -90,6 +93,7 @@ export const TEXT: Localized<SiteText> = {
       talks: "カンファレンスや勉強会での登壇と、そのスライド。",
       writing: "ブログやそのほかの場所に書いた記事の一覧。",
       career: "これまでに働いた会社と、そこでの役割。",
+      privacy: "このサイトのアクセス解析について。",
     },
     languageName: "日本語",
     footer: { site: "サイト", links: "リンク", language: "言語", blog: "ブログ" },
