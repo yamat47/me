@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { otherLanguage, pathOf } from "./routes.ts";
+import { LISTED_PAGES, otherLanguage, pathOf } from "./routes.ts";
 
 test("the English top page is the root, and the Japanese one is /ja/", () => {
   assert.equal(pathOf("en", "top"), "/");
@@ -10,6 +10,10 @@ test("the English top page is the root, and the Japanese one is /ja/", () => {
 test("a page's path ends with a slash in both languages", () => {
   assert.equal(pathOf("en", "career"), "/career/");
   assert.equal(pathOf("ja", "career"), "/ja/career/");
+});
+
+test("the privacy policy is not among the pages a reader moves between", () => {
+  assert.deepEqual(LISTED_PAGES, ["about", "projects", "talks", "writing", "career"]);
 });
 
 test("each language's other language is the other of the two", () => {

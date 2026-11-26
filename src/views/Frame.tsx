@@ -36,7 +36,13 @@ export function Frame({ lang, page, children }: FrameProps) {
   const inOtherLanguage = pathOf(other, page ?? "top");
 
   const groups: LinkGroup[] = [
-    { label: text.footer.site, links: pages },
+    {
+      label: text.footer.site,
+      links: [
+        ...pages,
+        { label: text.titles.privacy, href: pathOf(lang, "privacy"), current: page === "privacy" },
+      ],
+    },
     {
       label: text.footer.links,
       links: [...ACCOUNTS, { label: text.footer.blog, href: SITE.blog }],

@@ -2,6 +2,7 @@ import type { Article, Language } from "@yamat47/pylon";
 import type { PageName } from "../routes.ts";
 import { AboutPage } from "./AboutPage.tsx";
 import { CareerPage } from "./CareerPage.tsx";
+import { PrivacyPage } from "./PrivacyPage.tsx";
 import { ProjectsPage } from "./ProjectsPage.tsx";
 import { TalksPage } from "./TalksPage.tsx";
 import { TopPage } from "./TopPage.tsx";
@@ -29,5 +30,7 @@ export function View({ lang, page, articles }: ViewProps) {
       return <WritingPage lang={lang} articles={articles} />;
     case "career":
       return <CareerPage lang={lang} />;
+    case "privacy":
+      return <PrivacyPage lang={lang} />;
   }
 }

@@ -19,8 +19,9 @@ The site is published by GitHub Pages: "Deploying" below says how.
 - **English at `/`, Japanese at `/ja/`.** Every page exists in both languages and links to itself in the other one.
   A title stays in the language its author wrote it in: a Japanese article keeps its Japanese title on an English
   page, marked `lang="ja"`
-- **Six pages in each language:** the top page, and the pages of about, projects, talks, writing and career. The
-  top page shows a few rows of each list and leads to its page
+- **Six pages in each language,** and a privacy policy: the top page, and the pages of about, projects, talks,
+  writing and career. The top page shows a few rows of each list and leads to its page. The privacy policy is linked
+  from the footer only
 - **Projects are what I build outside my job**, not my work history, which is the career page. The list is chosen
   by hand: japanese_address_parser, playmaker, activerecord_accessible_json, JPFF East Filmroom, cutups, the Rails
   Active Search demo, Word Counter, and my contributions to annotaterb
@@ -36,10 +37,10 @@ The site is published by GitHub Pages: "Deploying" below says how.
 
 | Path | Contents |
 |---|---|
-| `src/content/` | What the pages say, in both languages: the site's own words (`text.ts`), and the projects, talks, career, about page and the articles published outside the blog, each a list kept by hand |
+| `src/content/` | What the pages say, in both languages: the site's own words (`text.ts`), and the projects, talks, career, about page, privacy policy and the articles published outside the blog, each a list kept by hand |
 | `src/views/` | The pages, put together from pylon's components: one file a page, and `Frame.tsx` for the profile column and the footer every page has |
 | `src/pages/` | The routes: `[...path].astro` builds every page in both languages, `404.astro` the page for an address that leads nowhere |
-| `src/layouts/Base.astro` | The document around a page: its title, its description, and the links to the same page in each language |
+| `src/layouts/Base.astro` | The document around a page: its title, its description, the links to the same page in each language, and Google's tag |
 | `src/routes.ts`, `src/site.ts` | The pages' names and paths, and the site's address and what it reads from the blog |
 | `src/lib/blog-posts.ts`, `src/blog.ts` | Reading the blog's feed for the writing list, and keeping what it read |
 | `data/blog-posts.json` | The blog's posts as the last build that reached the feed saw them. Written by the build, committed |
@@ -82,6 +83,11 @@ invokes it with `docker compose -f docker/compose.yaml run`.
   carries only the blog's newest posts, so a post it no longer carries stays in the file. When a build changes the
   file, commit it; CI does not fail on the difference, because a new post on the blog must not break this
   repository's checks
+- **Google's tag is the one script from another site, and it goes with the privacy policy.** It reports visits to
+  Google Analytics, so it is in the layout, and it loads only on the published host (`googleTagId` in `src/site.ts`):
+  `make up` and `make preview` report nothing. Do not put another such script in the layout. The privacy policy
+  (`src/content/privacy.ts`) says that the site uses Google Analytics, which its terms require of a site that reports
+  to it: the two go together, as on the blog
 - **Text from another site is never written as HTML.** A title from the feed reaches a page as text, through a
   component
 - **A picture is a file under `public/images/`, in the shape pylon gives it:** 16:10 for a project's screenshot
