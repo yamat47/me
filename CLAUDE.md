@@ -4,7 +4,7 @@ The source of https://me.yamat47.me/, my portfolio site: who I am, the projects 
 everything I have written, and my career, in English and in Japanese. It is a static site built with Astro from
 the components of my design system, pylon.
 
-The site is built and not published yet: "Deploying" below says what is still to come.
+The site is published by GitHub Pages: "Deploying" below says how.
 
 ## What is decided
 
@@ -103,10 +103,9 @@ invokes it with `docker compose -f docker/compose.yaml run`.
 
 ## Deploying
 
-`.github/workflows/deploy.yml` builds the site and publishes it to GitHub Pages. For now it runs by hand only: the
-Pages site and its domain are declared in yamat47/infra-github and the DNS record in yamat47/infra-yamat47, and
-neither exists yet. Once they do, a push to `main` publishes, and so does a daily schedule, which is how a new
-post on the blog reaches the writing list.
+`.github/workflows/deploy.yml` builds the site and publishes it to GitHub Pages on every push to `main`, and once
+a day on a schedule, which is how a new post on the blog reaches the writing list. It can also be run by hand. The
+Pages site and its domain are declared in yamat47/infra-github, and the DNS record in yamat47/infra-yamat47.
 
 ## Where the conventions live
 
@@ -141,5 +140,5 @@ message and PR body before creating it. The commit author must be the repository
 ## How changes enter
 
 `main` is protected: changes arrive through pull requests, with signed commits. The repository's settings are
-declared in yamat47/infra-github, where the Pages site, its domain and the required checks will be added, and the
-DNS record will be declared in yamat47/infra-yamat47; neither is changed by hand.
+declared in yamat47/infra-github, with the Pages site, its domain and the required checks, and the DNS record in
+yamat47/infra-yamat47; neither is changed by hand.

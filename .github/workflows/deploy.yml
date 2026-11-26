@@ -2,11 +2,12 @@
 name: Deploy
 
 on:
-  # By hand only, until the Pages site and its domain exist (yamat47/infra-github and
-  # yamat47/infra-yamat47). Then a push to main publishes, and so does a daily schedule: the
-  # writing list is read from the blog's feed when the site is built, so the site is built again
-  # to show a new post.
-  # TODO: add `push` to main and the schedule in the pull request that follows the domain.
+  push:
+    branches: [main]
+  # Every day at 06:17 in Japan: the writing list is read from the blog's feed when the site is
+  # built, so the site is built again to show a new post.
+  schedule:
+    - cron: "17 21 * * *"
   workflow_dispatch:
 
 # Runs for one branch go one at a time, so the site is not left at an older merge whose build
